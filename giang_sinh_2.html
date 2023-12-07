@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoạt ảnh Cây Giáng Sinh với Quà Tặng</title>
+    <style>
+        pre {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        .star {
+            display: inline-block;
+            opacity: 0;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        .present {
+            display: inline-block;
+            opacity: 0;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .yellow {
+            color: yellow;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .green {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <pre id="output"></pre>
+
+    <script>
+        function clearConsole() {
+            document.getElementById('output').innerHTML = '';
+        }
+
+        function getRandomColorClass() {
+            const colorClasses = ['red', 'yellow', 'blue', 'green'];
+            const randomIndex = Math.floor(Math.random() * colorClasses.length);
+            return colorClasses[randomIndex];
+        }
+
+        function createStar(colorClass) {
+            const star = document.createElement('span');
+            star.className = `star ${colorClass}`;
+            star.innerHTML = '*';
+            return star;
+        }
+
+        function createPresent() {
+            const present = document.createElement('span');
+            present.className = 'present';
+            present.innerHTML = '🎁'; // Unicode character for gift box
+            return present;
+        }
+
+        function christmasTree(height) {
+            let tree = '';
+
+            for (let i = 0; i < height; i++) {
+                tree += ' '.repeat(height - i);
+                for (let j = 0; j < 2 * i + 1; j++) {
+                    if (Math.random() < 0.1) {
+                        const colorClass = getRandomColorClass();
+                        const star = createStar(colorClass);
+                        tree += star.outerHTML;
+                    } else {
+                        tree += '<span class="green">*</span>';
+                    }
+                }
+                tree += '\n';
+            }
+
+            tree += ' '.repeat(height - 1) + '<span class="red">mWm</span>\n';
+            tree += ' '.repeat(height - 1) + '<span class="red">mWm</span>\n';
+
+            const colorClass = getRandomColorClass();
+            tree += `<span class="${colorClass}">`.repeat(8) + 'Merry Christmas !</span>\n';
+            tree += `<span class="${colorClass}">`.repeat(14) + '2023</span>\n';
+            tree += `<span class="${colorClass}">`.repeat(7) + 'Trang Nuuuuu</span>\n';
+
+            return tree;
+        }
+
+        function animateStars() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.style.opacity = '1';
+                star.style.transform = `translateY(${Math.floor(Math.random() * 20) - 10}px)`;
+            });
+        }
+
+        function animatePresents() {
+            const presents = document.querySelectorAll('.present');
+            presents.forEach(present => {
+                present.style.opacity = '1';
+                present.style.transform = `translateY(${Math.floor(Math.random() * 20) + 20}px)`;
+            });
+        }
+
+        function animateChristmasTree(height, interval) {
+            let iteration = 0;
+
+            function displayTree() {
+                clearConsole();
+                document.getElementById('output').innerHTML = christmasTree(height);
+                animateStars();
+                animatePresents();
+                iteration++;
+
+                if (iteration >= height) {
+                    clearInterval(intervalId);
+                }
+            }
+
+            const intervalId = setInterval(displayTree, interval);
+        }
+
+        // Điều chỉnh chiều cao và khoảng cách thời gian theo nhu cầu
+        const treeHeight = 16;
+        const animationInterval = 500;
+
+        // Bắt đầu hoạt ảnh
+        animateChristmasTree(treeHeight, animationInterval);
+    </script>
+</body>
+</html>
